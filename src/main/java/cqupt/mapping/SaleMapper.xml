@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cqupt.dao.SaleDao">
+	<insert id="insertSale" parameterType="cqupt.po.Sale">
+	insert into sale(buyuserid,saleuserid,bookid,paystate,deliverstate,takestate)  
+		values(#{buyuserid},#{saleuserid},#{bookid},#{paystate},#{deliverstate},#{takestate})
+	</insert>
+	
+	<delete id="deleteSale" parameterType="cqupt.po.Sale">
+	delete from sale where buyuserid=#{buyuserid} and saleuserid=#{saleuserid} and bookid=#{bookid}
+	</delete>
+	
+	<update id="updateSale" parameterType="cqupt.po.Sale">
+	update sale
+	<set>
+	<if test="buyuserid!=null">
+		buyuserid=#{buyuserid},
+	</if>
+	<if test="saleuserid!=null">
+		saleuserid=#{saleuserid},
+	</if>
+	<if test="bookid!=null">
+		bookid=#{bookid},
+	</if>
+	<if test="paystate!=null">
+		paystate=#{paystate},
+	</if>
+	<if test="deliverstate!=null">
+		deliverstate=#{deliverstate},
+	</if>
+	<if test="takestate!=null">
+		takestate=#{takestate},
+	</if>
+	</set>
+	where buyuserid=#{buyuserid} and saleuserid=#{saleuserid} and bookid=#{bookid}
+	</update>
+	
+	<select id="selectBookidByUserid" parameterType="int" resultType="cqupt.po.Book">
+	select * from book where bookid int (
+		select bookid from sale where buyuserid=#{buyuserid}
+	)
+	</select>
+	
+	<select id="selectSaleByUserid" parameterType="int" resultType="cqupt.po.Sale">
+	select * from sale where buyuserid=#{buyuserid}
+	</select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cqupt.dao.PictureDao">
+	<insert id="insertPicture" parameterType="cqupt.po.Picture">
+	insert into picture(url,bookid)  values(#{url},#{bookid})
+	</insert>
+	
+	<delete id="deleteBuy" parameterType="cqupt.po.Picture">
+	delete from picture where url=#{url} and bookid=#{bookid}
+	</delete>
+	
+	<update id="updateBuy" parameterType="cqupt.po.Picture">
+	update picture
+	<set>
+	<if test="url!=null">
+		url=#{url},
+	</if>
+	<if test="bookid!=null">
+		bookid=#{bookid},
+	</if>
+	</set>
+	where url=#{url} and bookid=#{bookid}
+	</update>
+	
+	<select id="selectPictureByBookid" parameterType="int" resultType="String">
+	select url from picture where bookid=#{bookid}
+	</select>
+</mapper>

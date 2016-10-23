@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cqupt.dao.BookDao">
+	<insert id="addBook" parameterType="cqupt.po.Book" >
+		insert into book(bookname,editor,bookage,category,money,state,department,uploaduserid) values
+		(#{bookname},#{editor},#{bookage},#{category},#{money},#{state},#{department},#{uploaduserid})
+	</insert>
+	
+	<update id="updateBook" parameterType="cqupt.po.Book">
+		update book 
+		<set>
+		<if test="bookname!=null">
+		bookname= #{bookname},
+		</if>
+		<if test="editor!=null">
+		editor=#{editor},
+		</if>
+		<if test="bookage!=null">
+		bookage=#{bookage},
+		</if>
+		<if test="category!=null">
+		category=#{category},
+		</if>
+		<if test="money!=null">
+		money=#{money},
+		</if>
+		<if test="state!=null">
+		state=#{state},
+		</if>
+		<if test="department!=null">
+		department=#{department},
+		</if>
+		<if test="uploaduserid!=null and uploaduserid!=''">
+		uploaduserid=#{uploaduserid}
+		</if>
+		
+		</set>
+		
+		where bookid=#{bookid}
+	</update>
+	
+	<delete id="deleteBook" parameterType="int">
+	delete from book where bookid=#{bookid}
+	</delete>
+	
+	<select id="selectBookByBookId" parameterType="int" resultType="cqupt.po.Book">
+		select * from book where bookid=#{bookid}
+	</select>
+	
+	
+	<select id="selectBookByCateory" parameterType="String" resultType="cqupt.po.Book">
+		select * from book where category=#{category}
+	</select>
+	
+	<select id="selectBookByBooknameAndEditor" parameterType="cqupt.po.Book" resultType="cqupt.po.Book">
+		select * from book where bookname=#{bookname} and editor=#{editor}
+	</select>
+	
+	<select id="selectAllBook" resultType="cqupt.po.Book">
+		select * from book where state='待出售'
+	</select>
+	
+	<select id="selectBookByNewBook" parameterType="cqupt.po.Book" resultType="cqupt.po.Book">
+		select * from book where bookname=#{bookname} and editor=#{editor} and   bookage=#{bookage} and
+		category=#{category} and money=#{money} and department=#{department} and uploaduserid=#{uploaduserid}
+	</select>
+	
+	<select id="selectBookByBookname" parameterType="String" resultType="cqupt.po.Book">
+		select * from book where bookname like "%"#{bookname}"%"
+	</select>
+	
+</mapper>

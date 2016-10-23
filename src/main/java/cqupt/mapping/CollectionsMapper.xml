@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cqupt.dao.CollectionsDao">
+	<insert id="insertCollections" parameterType="cqupt.po.Collections">
+	insert into collections(userid,bookid)  values(#{userid},#{bookid})
+	</insert>
+	
+	<delete id="deleteCollections" parameterType="cqupt.po.Collections">
+	delete from collections where userid=#{userid} and bookid=#{bookid}
+	</delete>
+	
+	<update id="updateCollections" parameterType="cqupt.po.Collections">
+	update collections
+	<set>
+	<if test="userid!=null">
+		userid=#{userid},
+	</if>
+	<if test="bookid!=null">
+		bookid=#{bookid},
+	</if>
+	</set>
+	where userid=#{userid} and bookid=#{bookid}
+	</update>
+	
+	<select id="selectBookByUserid" parameterType="int" resultType="cqupt.po.Book">
+	select * from book where bookid in(
+		select bookid from collections where userid=#{userid}
+	)
+	</select>
+	
+	<select id="selectBookidByUserid" parameterType="int" resultType="int">
+	select bookid from collections where userid=#{userid}
+	</select>
+</mapper>

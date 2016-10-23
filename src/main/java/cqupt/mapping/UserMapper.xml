@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cqupt.dao.UserDao">
+	<insert id="insertUser" parameterType="cqupt.po.User" >
+		insert into user(username,password,phonenumber,qq,school,sex,address) values
+		(#{username},#{password},#{phonenumber},#{qq},#{school},#{sex},#{address})
+	</insert>
+	
+	<select id="loginUser" parameterType="cqupt.po.User" resultType="cqupt.po.User">
+		select * from user where username= #{username} and password=#{password}
+	</select>
+	
+	<select id="selectUserByUsername" parameterType="String" resultType="cqupt.po.User">
+		select * from user where username=#{username}
+	</select>
+	
+	<update id="modifyUser" parameterType="cqupt.po.User">
+		update user 
+		<set> 
+		<if test="password!=null">
+		password=#{password},
+		</if>
+		<if test="username!=null">
+		username= #{username},
+		</if>
+		<if test="phonenumber!=null">
+		phonenumber=#{phonenumber},
+		</if>
+		<if test="qq!=null">
+		qq=#{qq},
+		</if>
+		<if test="school!=null">
+		school=#{school},
+		</if>
+		<if test="sex!=null">
+		sex=#{sex},
+		</if>
+		<if test="address!=null">
+		address=#{address}
+		</if>
+		</set>
+		where userid=#{userid}
+	</update>
+	
+	<select id="getUserInfoByUserId" parameterType="int" resultType="cqupt.po.User">
+		select * from user where userid=#{userid}
+	</select>
+	
+	<delete id="deleteUser" parameterType="int">
+	    delete from user where userid=#{userid}
+	</delete>
+</mapper>
